@@ -23,12 +23,11 @@ const getWord = async function () {
 
 //Fire off the game 
 getWord();
-
 // Display our symbols as placeholders for the chosen word's letters
 const placeholder = function (word) {
     const placeholderLetters = [];
   for (const letter of word) {
-    console.log(letter);
+    //console.log(letter);
     placeholderLetters.push("●");
   }
   wordInProgress.innerText = placeholderLetters.join("");
@@ -49,7 +48,6 @@ guessLetterButton.addEventListener("click" , function (e) {
         // We've got a letter! Let's guess!
         makeGuess(guess);
     }
-
     letterInput.value = "";
 });
 
@@ -126,10 +124,34 @@ const showGuessedLetters = function () {
     }
   };
   
-  
   const checkIfWin = function () {
     if (word.toUpperCase() === wordInProgress.innerText) {
       message.classList.add("win");
       message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
     }
   };
+
+  const startOver = function () {
+    guessLetterButton.classList.add("hide");
+    remainingGuessesElement.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    playAgainButton.classList.remove("hide");
+  };
+
+  playAgainButton.addEventListener("click" function () {
+    // reset all original values - grab new word
+    message.classList.remove("win");
+    guessedLetter = [];
+    remainingGuesses = 8;
+    remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+    guessedLettersElement.innerHTML = "";
+    message.innerText = "";
+    // Grab a new word 
+    getWord();
+
+    // show the right UI elements
+    guessLetterButton.classList.remove("hide");
+    playAgainButton.classList.add("hide");
+    remainingGuessesElement.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+  });
